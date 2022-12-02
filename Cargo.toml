@@ -1,6 +1,6 @@
 [package]
 name = "aoc_2022"
-version = "1.0.1"
+version = "2.0.0"
 authors = ["biancoSolutions <implimail@gmail.com>"]
 edition = "2021"
 
