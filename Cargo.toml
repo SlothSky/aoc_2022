@@ -1,6 +1,6 @@
 [package]
 name = "aoc_2022"
-version = "2.0.0"
+version = "3.0.0"
 authors = ["biancoSolutions <implimail@gmail.com>"]
 edition = "2021"
 
@@ -18,3 +18,4 @@ cgmath = "0.17.0"
 plotters = "0.3.4"
 plotters-backend = "0.3.0"
 crossterm = "0.22.1"
+regex = "1.7.0"

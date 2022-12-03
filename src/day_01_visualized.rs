@@ -1,7 +1,7 @@
 use ansi_term::Color::{Red, RGB};
 use std::fs::File;
 use std::io::Read;
-use plotters::{prelude::*, data};
+use plotters::prelude::*;
 
 const COLOR_PALETTE: &[RGBColor] = &[
     RGBColor(244, 242, 241),
@@ -41,18 +41,16 @@ fn both_parts_01() -> (i32, i32) {
             single_elve += calory.trim().parse::<i32>().unwrap();
         } 
 
-        let temp_index;
-
-        match elves_calories.binary_search(&single_elve) {
+        let temp_index = match elves_calories.binary_search(&single_elve) {
             Ok(x) =>  {
                 elves_calories.insert(x, single_elve);
-                temp_index = x;
+                x
             },
             Err(x) => {
                 elves_calories.insert(x, single_elve);
-                temp_index = x;
+                x
             },
-        }
+        };
 
         let mut temp_list = Vec::new();
 
@@ -77,7 +75,7 @@ fn both_parts_01() -> (i32, i32) {
     )
 }
 
-fn create_plot(plot_data: &Vec<Vec<i32>>) {
+fn create_plot(plot_data: &[Vec<i32>]) {
     // create drawing area and fill it with grey
     let drawing_area = BitMapBackend::new("diagrams/day_01.png", (1920, 1080)).into_drawing_area();
     drawing_area.fill(&RGBColor(61, 61, 61)).unwrap();
@@ -88,7 +86,7 @@ fn create_plot(plot_data: &Vec<Vec<i32>>) {
         .build_cartesian_2d(0..240, 0..70000)
         .unwrap();
     
-    for (i, dataset) in plot_data.into_iter().enumerate() {
+    for (i, dataset) in plot_data.iter().enumerate() {
         chart.draw_series((0..).zip(dataset.iter().enumerate()).map(|(x, (j, y))| {
             match j {
                 0 => {
@@ -100,7 +98,7 @@ fn create_plot(plot_data: &Vec<Vec<i32>>) {
                 }
                 _ => {
                     let mut height = 0;
-                    for (limit, element_height) in dataset.into_iter().enumerate() {
+                    for (limit, element_height) in dataset.iter().enumerate() {
                         if limit <= (j - 1) {
                             height += element_height;
                         } else {

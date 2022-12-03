@@ -2,18 +2,18 @@ use ansi_term::Color::{Red, RGB};
 use std::fs::File;
 use std::io::Read;
 
-pub fn day_01_main() {
+pub fn _day_01_main() {
     println!(
         "{}\n\t• {} is the highest calory number\n\t• {} are the highest three calory numbers summed up",
         RGB(204, 204, 0)
             .underline()
             .paint("These are the results for day 1:"),
-        Red.paint(both_parts_01().0.to_string()),
-        Red.paint(both_parts_01().1.to_string())
+        Red.paint(_both_parts_01().0.to_string()),
+        Red.paint(_both_parts_01().1.to_string())
     )
 }
 
-fn both_parts_01() -> (i32, i32) {
+fn _both_parts_01() -> (i32, i32) {
     let file = File::open("assets/01/calories_list.txt");
     let mut file = file.expect("Something went wrong reading the input file");
 
