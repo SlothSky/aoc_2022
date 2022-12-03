@@ -11,18 +11,18 @@ const COLOR_PALETTE: &[RGBColor] = &[
     RGBColor(160, 120, 90)
 ];
 
-pub fn day_01_main() {
+pub fn day_01_main(with_plot: bool) {
     println!(
         "{}\n\t• {} is the highest calory number\n\t• {} are the highest three calory numbers summed up",
         RGB(204, 204, 0)
             .underline()
             .paint("These are the results for day 1:"),
-        Red.paint(both_parts_01().0.to_string()),
-        Red.paint(both_parts_01().1.to_string())
+        Red.paint(both_parts_01(with_plot).0.to_string()),
+        Red.paint(both_parts_01(false).1.to_string())
     )
 }
 
-fn both_parts_01() -> (i32, i32) {
+fn both_parts_01(with_plot: bool) -> (i32, i32) {
     let file = File::open("assets/01/calories_list.txt");
     let mut file = file.expect("Something went wrong reading the input file");
 
@@ -65,7 +65,9 @@ fn both_parts_01() -> (i32, i32) {
 
     }
 
-    create_plot(&elves_calories_split);
+    if with_plot {
+        create_plot(&elves_calories_split);
+    }
     
     (
         elves_calories[elves_calories.len() - 1], 
@@ -77,9 +79,13 @@ fn both_parts_01() -> (i32, i32) {
 
 fn create_plot(plot_data: &[Vec<i32>]) {
     // create drawing area and fill it with grey
-    let drawing_area = BitMapBackend::new("diagrams/day_01.png", (1920, 1080)).into_drawing_area();
+    let drawing_area = BitMapBackend::gif(
+        "diagrams/day_01_fast.gif", 
+        (1920, 1080), 
+        1
+    ).unwrap().into_drawing_area();
     drawing_area.fill(&RGBColor(61, 61, 61)).unwrap();
-    
+
     // create chart on drawing area
     let mut chart = ChartBuilder::on(&drawing_area)
         .margin(50)
@@ -90,6 +96,8 @@ fn create_plot(plot_data: &[Vec<i32>]) {
         chart.draw_series((0..).zip(dataset.iter().enumerate()).map(|(x, (j, y))| {
             match j {
                 0 => {
+                    drawing_area.present().unwrap();
+
                     Rectangle::new([
                             (i as i32, 0),
                             ((i as i32) + 1, *y)
@@ -97,6 +105,8 @@ fn create_plot(plot_data: &[Vec<i32>]) {
                     )
                 }
                 _ => {
+                    drawing_area.present().unwrap();
+
                     let mut height = 0;
                     for (limit, element_height) in dataset.iter().enumerate() {
                         if limit <= (j - 1) {
