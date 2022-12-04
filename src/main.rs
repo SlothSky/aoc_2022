@@ -2,10 +2,12 @@ mod day_01;
 mod day_01_visualized;
 mod day_02;
 mod day_03;
+mod day_04;
 
 fn main() {
     //day_01::day_01_main();
     day_01_visualized::day_01_main(false);
     day_02::day_02_main();
     day_03::day_03_main();
+    day_04::day_04_main();
 }
